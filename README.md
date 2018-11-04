@@ -1,1 +1,31 @@
-# homelab
+# Hybrid Home Lab
+Building environments like Active Directory domains or tiered web applications can be a pain in the neck.  Downloading and importing VM's definitely can make it easier, but hand configuring machines can get tedious quick.  This workshop will expose you to some awesome tools to rapidly prototype and build repeatable environments, even when your ultrabook with 8GB of memory couldn't possibly support that 20 or 100 machine complex environment you really need to build your test environment.
+
+## What you'll need
+### What you can't live without
+#### Laptop. 
+Try to bring something quad-core with 8GB+ of memory if possible.  There's only one VM you'll really have to run locally, but we will show you how to run a bunch more if you have the horsepower for it.  
+  * **Processor:** Quad core or better if possible (all else being equal, VM's prefer cores over speed)  
+  * **Memory:** 8GB or better if possible (VM's can be hungry)  
+  * **OS:** All of this was tested on a Fedora 29 image.  If you have Windows or Mac installed, the tools will support it, we just haven't tested them as extensively.  
+
+#### Virtual Machine Software
+This workshop revolves around VM's, so you'll definitely need something that you can build virtual machines in.  Some good options:
+##### [VirtualBox](https://www.virtualbox.org/)
+VirtualBox is cross-platform (Windows, Mac, Linux) and is free.  It's also got out of the box support for Vagrant which we will be doing our local automation with.  Unfortunately, it doesn't support nested virtualization which means that testing things like OpenStack or ESXI wouldn't be possible.
+##### [VMWare Workstation Pro/VMWare Workstation Player/VMWare Fusion](https://www.vmware.com/products/personal-desktop-virtualization.html)
+VMWare Workstation/Fusion is also cross-platform.  Unfortunately, it's a bit pricey ($249.99) and you'll also have to purchase the [plugin for Vagrant](https://www.vagrantup.com/vmware/index.html) to interact with it ($79.99).  Upgrades over time aren't quite as bad ($149.99 for Workstation, $39.99 for Vagrant), but it's still not a cheap option.  If you are interested in purchasing this software, you should definitely take a look at [VMUG Advantage](https://www.vmug.com/Join/VMUG-Advantage-Membership).  This is a subscription that starts at $200 for a year, but comes down in price for multi-year (IIRC, something like $360 for two years, $520 for three years).  This subscription will include licenses for VSphere, VMWare Workstation, and several other products that are good for the life of the subscription.  It does offer nested virtualization, and you can download a 30 day trial if necessary, although you'd still need to shell for the plugin.  The plugin does appear to sort of work with [VMWare Workstation Player](https://www.vmware.com/products/workstation-player/workstation-player-evaluation.html) (which is free) according to the [Vagrant VMWare page](https://www.vagrantup.com/vmware/index.html), but with some mixed results.  The latest version of VMWare Workstation Pro, VMWare Workstation Player, and VMWare Fusion all support a REST API, but I don't believe the plugin utilizes it.  If you have a need to support VMWare environments or just a lot of experience with them, this is a great but expensive option.
+##### [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/)
+Hyper-V is only available on Windows 8.1/10 Pro (not Home edition!).  It does offer support for nested virtualization, and has native support in Vagrant.  
+##### Libvirt/QEMU/KVM
+This is my personal favorite.  It's free, and there is no difference between the server and desktop install.  It's a Type-1 hypervisor widely used in cloud platforms like Digital Ocean, and supports nested virtualization.  If you want to get crazy with clustered storage like Ceph/Gluster or software defined networks with OpenVSwitch, it's all possible and free.  It is technically cross-platform (this is an example of using it on [Windows](https://www.qemu.org/2017/11/22/haxm-usage-windows/)), but I have only ever used it on Linux.  This does have a higher level of required knowledge and you will have to install a Vagrant plugin for libvirt (https://github.com/vagrant-libvirt/vagrant-libvirt).  
+##### Other providers
+There are definitely other providers out there, but the ones listed above are the ones that will work the most smoothly on your laptop.  AWS, VSphere, Digital Ocean...there's a bunch that are targeted at deploying VM's to the cloud or an on-prem server farm.  Although we will explore deployment to a remote system, you won't want to start there (especially if the internet connection is poor or non-existent which there's no guarantee of).  You'll also want to avoid the Docker provider.  There is definitely a use for it, but that goes down a path talking about containers, not VM's.
+
+### What you'll want 
+#### Vagrant
+It will definitely save you some bandwidth if you can install Vagrant ahead of time.  If you're using a package manager, you may find Vagrant is already available in your local repo.  Try not to use that one; it is likely an out-of-date version (2.2.0 as of this writing).  Head here (https://www.vagrantup.com/downloads.html) and snag the download.  You'll also want to have at least one of the above virtualization providers installed first.  I don't know that it would break anything to install Vagrant then a virtualization provider, but Vagrant won't be usable until you have one.
+#### Packer
+Packer (https://www.packer.io/downloads.html) will be used to build Vagrant boxes and can be used for a lot more.  It's even less convenient to install than Vagrant, but the good news is it's a single binary.  If you have trouble installing it, don't worry, but you should at least download it and have it available to install.
+#### Vagrant Boxes
+These are probably the most bandwidth intensive thing we'll do.  Start by typing `vagrant init centos/7` and then `vagrant up`.  This will show you how a box gets pulled and started.  The good news is that once you download a box, creating it will be a local, offline process.  You will also want to pull the main box for this class.  Type `vagrant init eightbitdino/homelab` and `vagrant up`.  If everything goes swimmingly, you can `vagrant destroy`.  I only expect to have Virtualbox, VMWare, and Libvirt providers built for this class.  Sorry if you're using Hyper-V! We can help you get it working if you are.

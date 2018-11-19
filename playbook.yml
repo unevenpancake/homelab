@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  vars:
+  - builders: qemu
+
+  tasks:
+  - name: Build a CentOS Box
+    command: "packer build -var-file centos7.json -only {{builders}} centos.json"
+    args:
+      chdir: packer/

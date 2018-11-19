@@ -1,0 +1,45 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: Clear any existing Docker installation
+    yum: 
+      name: "{{ item.name }}"
+      state: "{{ item.state }}"
+    loop:
+    - { name: docker, state: absent }
+    - { name: docker-client, state: absent }
+    - { name: docker-client-latest, state: absent }
+    - { name: docker-common, state: absent }
+    - { name: docker-latest, state: absent }
+    - { name: docker-latest-logrotate, state: absent }
+    - { name: docker-selinux, state: absent }
+    - { name: docker-engine-selinux, state: absent }
+    - { name: docker-engine, state: absent }
+    - { name: yum-utils, state: latest }
+    - { name: device-mapper-persistent-data, state: latest }
+    - { name: lvm2, state: latest }
+    
+  - name: Add Docker repository
+    command: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+    args:
+      creates: /etc/yum.repos.d/docker-ce.repo
+    
+  - name: Install Docker from Docker repo
+    yum:
+      name: docker-ce
+      state: latest
+
+  - name: Enable and start Docker
+    systemd:
+      state: started
+      name: docker
+      enabled: yes
+
+  - name: Add vagrant user to docker group
+    user:
+      name: vagrant
+      groups: docker
+      append: yes

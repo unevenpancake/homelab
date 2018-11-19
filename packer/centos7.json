@@ -1,5 +1,6 @@
 {
   "_comment": "Build with `packer build -var-file=centos7.json centos.json`",
+  "headless": "true",
   "vm_name": "centos7",
   "cpus": "1",
   "disk_size": "65536",

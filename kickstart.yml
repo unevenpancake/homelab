@@ -1,0 +1,45 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Pull a copy of the pxeboot kernel and initrd image
+    get_url:
+      url: "http://mirror.clarkson.edu/centos/7/os/x86_64/images/pxeboot/{{ item.src }}"
+      dest: "/boot/{{ item.dest }}"
+      mode: "{{ item.mode }}"
+      owner: root
+      group: root
+    loop:
+    - { src: vmlinuz, dest: vmlinuz-ks, mode: '0755' }
+    - { src: initrd.img, dest: initrd-ks.img, mode: '0600' }
+
+  - name: Deploy custom boot menu entry
+    copy:
+      src: 40_custom
+      dest: /etc/grub.d/40_custom
+      mode: 0755
+      owner: root
+      group: root
+
+  - name: Add boot option to PXE boot
+    shell: "grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg"
+
+  - name: Pull kickstart file
+    get_url:
+      url: "http://10.73.25.3/snippets/5/raw"
+      dest: "/boot/ks.cfg"
+      mode: 0644
+      owner: root
+      group: root
+
+  - name: Insert kickstart file to initrd img via cpio command
+    shell: "echo /boot/ks.cfg | cpio -c -o >> /boot/initrd.img"
+
+  - name: Install wget and kexec-tools
+    yum:
+      name: "{{ item }}"
+      state: latest
+    loop:
+    - wget
+    - kexec-tools

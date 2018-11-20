@@ -166,7 +166,7 @@
     },  
     {
       "type": "ansible",
-      "playbook_file": "../docker.yml",
+      "playbook_file": "../ansible/docker.yml",
       "extra_arguments": [
         "--ssh-extra-args",
         "-o IdentitiesOnly=yes"

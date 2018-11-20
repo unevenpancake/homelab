@@ -33,7 +33,11 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "public_network", ip: "192.168.121.101"
+  #config.vm.network "public_network", ip: "192.168.121.101"
+
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.nested = true
+  end
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on

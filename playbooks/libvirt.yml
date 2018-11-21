@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: Install packages for headless host
+    yum:
+      name: "{{ item }}"
+      state: latest
+    loop:
+    - qemu-kvm
+    - libvirt
+    - libvirt-python
+    - libguestfs-tools
+    - virt-install
+
+  - name: Enable and start Libvirtd
+    systemd:
+      state: started
+      name: libvirtd
+      enabled: yes
+
+  - name: Add vagrant user to docker group
+    user:
+      name: vagrant
+      groups: qemu
+      append: yes
+
+  - name: Pull a minimal install iso
+    get_url:
+      url: http://mirror.cs.pitt.edu/centos/7.5.1804/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso
+      dest: /var/lib/libvirt/boot/CentOS-7-x86_64-Minimal-1804.iso
+      mode: 0644
+      owner: root
+      group: root

@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  #config.vm.network "public_network", ip: "192.168.121.101"
+  config.vm.network "private_network", ip: "192.168.121.101"
 
   config.vm.provider "libvirt" do |libvirt|
     libvirt.nested = true

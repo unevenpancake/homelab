@@ -43,3 +43,5 @@
   
   - name: Install libvirt plugin for Vagrant
     command: "vagrant plugin install vagrant-libvirt"
+    become: yes
+    become_user: vagrant

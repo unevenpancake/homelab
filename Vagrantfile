@@ -61,7 +61,10 @@ Vagrant.configure("2") do |config|
   #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
   # end
-  #
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbooks/libvirt.yml"
+  end
+  
   # View the documentation for the provider you are using for more
   # information on available options.
 
@@ -72,4 +75,8 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+  config.trigger.after :up do |trigger|
+    trigger.info = "Inject newest ssh config information to sshconfig file"
+    trigger.run = {inline: "vagrant ssh-config"}
+  end
 end

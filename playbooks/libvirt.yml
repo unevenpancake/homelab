@@ -14,6 +14,9 @@
     - libvirt-python
     - libguestfs-tools
     - virt-install
+    - https://releases.hashicorp.com/vagrant/2.2.1/vagrant_2.2.1_x86_64.rpm
+    - libvirt-devel
+    - ruby-devel
 
   - name: Enable and start Libvirtd
     systemd:
@@ -24,8 +27,11 @@
   - name: Add vagrant user to docker group
     user:
       name: vagrant
-      groups: qemu
+      groups: "{{ item }}"
       append: yes
+    loop:
+    - qemu
+    - libvirt
 
   - name: Pull a minimal install iso
     get_url:
@@ -34,3 +40,6 @@
       mode: 0644
       owner: root
       group: root
+  
+  - name: Install libvirt plugin for Vagrant
+    command: "vagrant plugin install vagrant-libvirt"

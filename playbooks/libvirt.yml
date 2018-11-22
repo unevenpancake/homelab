@@ -54,6 +54,7 @@
   - name: Add Vagrantfile for test box
     copy:
       src: Vagrantfile_internal
-      dest: ansible_env.HOME/Vagrantfile
-      become: yes
-      become_user: vagrant
+      dest: /home/vagrant/Vagrantfile
+      user: vagrant
+      group: vagrant
+      mode: 0644

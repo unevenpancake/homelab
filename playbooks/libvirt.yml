@@ -45,3 +45,15 @@
     command: "vagrant plugin install vagrant-libvirt"
     become: yes
     become_user: vagrant
+
+  - name: Add test libvirt box
+    command: "vagrant box add eightbitdino/homelab --provider libvirt"
+    become: yes
+    become_user: vagrant
+
+  - name: Add Vagrantfile for test box
+    copy:
+      src: Vagrantfile_internal
+      dest: ansible_env.HOME/Vagrantfile
+      become: yes
+      become_user: vagrant

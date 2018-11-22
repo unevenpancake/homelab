@@ -1,0 +1,11 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "eightbitdino/homelab"
+  #Change the management network interface to a different bridge and network address to prevent conflict in nested virtualization
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.management_network_name = 'vagrant-management'
+    libvirt.management_network_address = '192.168.125.0/24'
+  end
+end

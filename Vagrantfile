@@ -64,6 +64,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbooks/libvirt.yml"
   end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbooks/docker.yml"
+  end
   
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -72,11 +75,11 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
+  #   vagrant box add eightbitdino/homelab --provider libvirt
+  #   vagrant init eightbitdino/homelab
   # SHELL
   config.trigger.after :up do |trigger|
     trigger.info = "Inject newest ssh config information to sshconfig file"
-    trigger.run = {inline: "vagrant ssh-config"}
+    trigger.run = {inline: "vagrant ssh-config; echo $HOME"}
   end
 end

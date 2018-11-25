@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.box = "eightbitdino/homelab"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.network "private_network", ip: "192.168.121.101"
+
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.nested = true
+    host = "192.168.121.183"
+    id_ssh_key_file = "/home/bigtuna/homelab/.vagrant/machines/default/libvirt/private_key"
+    username = "vagrant"
+  end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbooks/libvirt.yml"
+  end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbooks/docker.yml"
+  end
+  
+  config.trigger.after :up do |trigger|
+    trigger.info = "Inject newest ssh config information to sshconfig file"
+    trigger.run = {inline: "echo $HOME"}
+  end
+end

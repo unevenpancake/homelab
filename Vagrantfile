@@ -80,6 +80,6 @@ Vagrant.configure("2") do |config|
   # SHELL
   config.trigger.after :up do |trigger|
     trigger.info = "Inject newest ssh config information to sshconfig file"
-    trigger.run = {inline: "vagrant ssh-config; echo $HOME"}
+    trigger.run = {inline: "echo $HOME"}
   end
 end

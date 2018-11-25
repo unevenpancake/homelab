@@ -55,6 +55,6 @@
     copy:
       src: Vagrantfile_internal
       dest: /home/vagrant/Vagrantfile
-      user: vagrant
+      owner: vagrant
       group: vagrant
       mode: 0644

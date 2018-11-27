@@ -2,3 +2,7 @@
 /packer/box
 *.vagrant
 /sshconfig
+*output-centos7-vmware-iso
+*output-centos7-virtualbox-iso
+*centos7-build-img
+*centos7-base-img

@@ -135,12 +135,20 @@
     }
   ],
   "post-processors": [
-    {
-      "keep_input_artifact": true,
-      "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `version`}}.box",
-      "type": "vagrant",
-      "vagrantfile_template": "{{ user `vagrantfile_template` }}"
-    }
+    [
+      {
+        "keep_input_artifact": true,
+        "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `version`}}.box",
+        "type": "vagrant",
+        "vagrantfile_template": "{{ user `vagrantfile_template` }}"
+      },
+      {
+        "type": "vagrant-cloud",
+        "box_tag": "{{ user `box_tag` }}",
+        "access_token": "{{ user `access_token` }}",
+        "version": "{{user `version`}}"
+      }
+    ]
   ],
   "provisioners": [
     {   
@@ -166,7 +174,15 @@
     },  
     {
       "type": "ansible",
-      "playbook_file": "../ansible/docker.yml",
+      "playbook_file": "../playbooks/libvirt.yml",
+      "extra_arguments": [
+        "--ssh-extra-args",
+        "-o IdentitiesOnly=yes"
+      ]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "../playbooks/docker.yml",
       "extra_arguments": [
         "--ssh-extra-args",
         "-o IdentitiesOnly=yes"
@@ -234,6 +250,8 @@
     "virtualbox_paravirtprovider": "default",
     "virtualbox_nictype": "virtio",
     "vm_name": "centos7",
-    "vmware_guest_os_type": "centos-64"
+    "vmware_guest_os_type": "centos-64",
+    "box_tag": "{{env `box_tag`}}",
+    "access_token": "{{env `access_token`}}"
   }
 }

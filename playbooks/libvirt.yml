@@ -17,6 +17,7 @@
     - https://releases.hashicorp.com/vagrant/2.2.1/vagrant_2.2.1_x86_64.rpm
     - libvirt-devel
     - ruby-devel
+    - gcc
 
   - name: Enable and start Libvirtd
     systemd:

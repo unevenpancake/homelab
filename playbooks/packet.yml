@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    state: present
+
+  tasks:
+  - name: Build Packet host
+    packet_device:
+      project_id: f320c8de-44d8-44fe-ab34-6483ec381bd6
+      hostnames: kvm01
+      operating_system: centos_7
+      plan: c2.medium.x86
+      facility: ewr1
+      state: "{{ state }}"

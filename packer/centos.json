@@ -146,7 +146,7 @@
         "type": "vagrant-cloud",
         "box_tag": "{{ user `box_tag` }}",
         "access_token": "{{ user `access_token` }}",
-        "version": "{{user `version`}}"
+        "version": "{{ user `version` }}"
       }
     ]
   ],

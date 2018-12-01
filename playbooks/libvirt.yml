@@ -3,6 +3,9 @@
   become: yes
   gather_facts: no
 
+  vars:
+    binary: false
+
   tasks:
   - name: Install packages for headless host
     yum:
@@ -41,6 +44,7 @@
       mode: 0644
       owner: root
       group: root
+    when: binary
   
   - name: Install libvirt plugin for Vagrant
     command: "vagrant plugin install vagrant-libvirt"
@@ -51,6 +55,7 @@
     command: "vagrant box add eightbitdino/homelab --provider libvirt"
     become: yes
     become_user: vagrant
+    when: binary
 
   - name: Add Vagrantfile for test box
     copy:
@@ -59,3 +64,4 @@
       owner: vagrant
       group: vagrant
       mode: 0644
+    when: binary

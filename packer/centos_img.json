@@ -148,7 +148,23 @@
   "provisioners": [
     {
       "type": "ansible",
+      "playbook_file": "../playbooks/libvirt.yml",
+      "extra_arguments": [
+        "--ssh-extra-args",
+        "-o IdentitiesOnly=yes"
+      ]
+    },
+    {
+      "type": "ansible",
       "playbook_file": "../playbooks/docker.yml",
+      "extra_arguments": [
+        "--ssh-extra-args",
+        "-o IdentitiesOnly=yes"
+      ]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "../playbooks/zerotier.yml",
       "extra_arguments": [
         "--ssh-extra-args",
         "-o IdentitiesOnly=yes"

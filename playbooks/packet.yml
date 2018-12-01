@@ -13,4 +13,24 @@
       operating_system: centos_7
       plan: c2.medium.x86
       facility: ewr1
+      wait_for_public_IPv: 4
       state: "{{ state }}"
+    register: packet
+
+  - debug: msg="{{ packet }}"
+
+  - name: Add packet host
+    add_host:
+      hostname: "{{ packet.devices[0].public_ipv4 }}"
+
+- hosts: all
+  become_user: root
+  
+  tasks:
+  - name: Wait for system to become reachable
+    wait_for_connection:
+      timeout: 900
+
+- name: Run libvirt playbook
+  import_playbook: libvirt.yml
+  when: state == 'present'

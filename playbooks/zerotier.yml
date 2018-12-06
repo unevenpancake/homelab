@@ -3,5 +3,18 @@
   become: yes
 
   tasks:
+  - name: Copy ZeroTier install script to box
+    copy:
+      src: zerotier_install.sh
+      dest: /tmp/zerotier_install.sh
+      owner: root
+      group: root
+      mode: 0755
+      
   - name: Install Zerotier
-    shell: "curl -s 'https://pgp.mit.edu/pks/lookup?op=get&search=0x1657198823E52A61' | gpg --import && if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo \"$z\" | bash; fi"
+    command: "/tmp/zerotier_install.sh"
+
+  - name: Remove ZeroTier install script
+    file:
+      path: "/tmp/zerotier_install.sh"
+      state: absent

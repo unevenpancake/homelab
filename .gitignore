@@ -6,3 +6,4 @@
 *output-centos7-virtualbox-iso
 *centos7-build-img
 *centos7-base-img
+secrets.yml

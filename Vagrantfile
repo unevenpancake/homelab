@@ -3,7 +3,7 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "eightbitdino/homelab"
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.network "private_network", ip: "192.168.125.101"
+  config.vm.network "private_network", ip: "192.168.126.101"
 
   config.vm.provider "vmware_desktop" do |vmware|
     vmware.vmx["vhv.enable"] = "TRUE"

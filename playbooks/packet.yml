@@ -4,11 +4,12 @@
 
   vars:
     state: present
+    project_id: hx1cFJ4McVmmDugYefJqQY4qAWm2X4Cw
 
   tasks:
   - name: Build Packet host
     packet_device:
-      project_id: f320c8de-44d8-44fe-ab34-6483ec381bd6
+      project_id: "{{ project_id }}"
       hostnames: kvm01
       operating_system: centos_7
       plan: c2.medium.x86

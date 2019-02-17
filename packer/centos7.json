@@ -5,10 +5,10 @@
   "cpus": "1",
   "disk_size": "65536",
   "http_directory": "kickstart/centos7",
-  "iso_checksum": "99723c8b87dcec21df8aed23de1eb810346d42cfd2a3fafafe70a68296053417",
+  "iso_checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291c",
   "iso_checksum_type": "sha256",
   "iso_name": "CentOS-7-x86_64-DVD-1804.iso",
-  "iso_url": "http://mirror.cs.pitt.edu/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-1804.iso",
+  "iso_url": "http://mirror.cs.pitt.edu/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
   "memory": "4096",
   "parallels_guest_os_type": "centos7"
 }
